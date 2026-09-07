@@ -213,6 +213,14 @@ window.RGI = (function () {
         id: 'Rangka atap limasan bertumpu pada kolom pendek di atas balok ring.',
         en: 'The hipped roof frame sits on short columns above the ring beam.'
       }
+    },
+    {
+      elev: 'Tampak akhir', sheet: 'tampak-kiri',
+      title: { id: 'Rumah Jadi', en: 'Finished House' },
+      desc: {
+        id: 'Rangka yang sama setelah dinding, atap, bukaan, dan finishing terpasang — lengkap dengan teras, carport, dan kolam renang 3 × 7 meter.',
+        en: 'The same frame once walls, roof, openings, and finishes are in place — with terrace, carport, and the 3 × 7 metre swimming pool.'
+      }
     }
   ];
 
@@ -332,12 +340,12 @@ window.RGI = (function () {
       out: { id: 'Output: Laporan progres', en: 'Output: Progress reports' }
     },
     {
-      title: { id: 'BAST & Masa Retensi', en: 'Handover & Retention' },
+      title: { id: 'BAST & Masa Garansi', en: 'Handover & Warranty' },
       desc: {
-        id: 'Berita Acara Serah Terima disertai masa retensi 6–12 bulan untuk perbaikan bila ditemukan cacat pekerjaan.',
-        en: 'Formal handover document with a 6–12 month retention period covering rectification of any defects found.'
+        id: 'Berita Acara Serah Terima disertai garansi pekerjaan 5 tahun untuk perbaikan bila ditemukan cacat pekerjaan.',
+        en: 'Formal handover document with a 5-year workmanship warranty covering rectification of any defects found.'
       },
-      out: { id: 'Output: BAST + garansi', en: 'Output: Handover + warranty' }
+      out: { id: 'Output: BAST + garansi 5 tahun', en: 'Output: Handover + 5-year warranty' }
     }
   ];
 
@@ -373,7 +381,7 @@ window.RGI = (function () {
     {
       aspect: { id: 'Garansi', en: 'Warranty' },
       them: { id: 'Selesai bayar, tanggung jawab ikut selesai', en: 'Once paid, responsibility ends' },
-      us: { id: 'Masa retensi 6–12 bulan setelah BAST', en: '6–12 month retention period after handover' }
+      us: { id: 'Garansi pekerjaan 5 tahun setelah BAST', en: '5-year workmanship warranty after handover' }
     }
   ];
 
@@ -470,18 +478,68 @@ window.RGI = (function () {
     }
   ];
 
+
+  /* ---------------------------------------------------------------------
+     7b. TIM
+     `photo` kosong -> kartu tetap tampil dengan bingkai foto menyusul.
+     --------------------------------------------------------------------- */
+  const owner = {
+    photo: 'rivky',
+    name: 'Muhammad Rivky',
+    role: { id: 'Owner / Pemilik Perusahaan', en: 'Owner / Company Principal' },
+    quote: {
+      id: 'Kepercayaan Anda adalah fondasi utama kami dalam setiap pengerjaan proyek.',
+      en: 'Your trust is the primary foundation of everything we build.'
+    },
+    bio: {
+      id: 'Memimpin langsung arah kerja perusahaan, dari penetapan standar mutu, pemilihan material, sampai memastikan setiap kesepakatan dengan pemilik proyek dijalankan apa adanya.',
+      en: 'Leads the company’s direction personally — from setting quality standards and selecting materials to making sure every agreement with the project owner is honoured as written.'
+    }
+  };
+
+  const team = [
+    {
+      photo: 'enggi',
+      name: 'Enggi Rusadi',
+      role: { id: 'Koordinator Lapangan', en: 'Site Coordinator' },
+      desc: {
+        id: 'Mengatur jadwal harian, tenaga kerja, dan alur material di lokasi agar pekerjaan berjalan sesuai urutan dan target waktu.',
+        en: 'Runs the daily schedule, workforce, and material flow on site so work follows the right sequence and stays on time.'
+      }
+    },
+    {
+      photo: 'ramdani',
+      name: 'Ramdani CH, S.T.',
+      role: { id: 'Tenaga Ahli Arsitektur', en: 'Architectural Expert' },
+      desc: {
+        id: 'Menerjemahkan kebutuhan pemilik proyek menjadi gambar kerja yang dapat dilaksanakan, serta mengawal kesesuaian hasil di lapangan terhadap gambar.',
+        en: 'Turns the owner’s requirements into buildable working drawings, and checks that on-site results match those drawings.'
+      }
+    },
+    {
+      photo: '',
+      name: 'Sholeh Kadzim, S.Ars.',
+      role: { id: 'Arsitek', en: 'Architect' },
+      desc: {
+        id: 'Menangani pengembangan desain dan detail arsitektur, memastikan konsep ruang tetap utuh sampai tahap pelaksanaan.',
+        en: 'Handles design development and architectural detailing, keeping the spatial concept intact through to execution.'
+      }
+    }
+  ];
+
   /* ---------------------------------------------------------------------
      8. LIBRARY PROSES PENGERJAAN
-     Proyek: Rumah Ms. Mala, Cisarua, Bogor
+     Dokumentasi lapangan; nama klien dan lokasi sengaja tidak ditampilkan.
      --------------------------------------------------------------------- */
   const stages = [
     { key: 'persiapan', label: { id: 'Persiapan Lahan', en: 'Site Preparation' } },
     { key: 'pondasi', label: { id: 'Pondasi & Galian', en: 'Foundation & Excavation' } },
     { key: 'struktur', label: { id: 'Struktur', en: 'Structure' } },
+    { key: 'kolam', label: { id: 'Kolam Renang', en: 'Swimming Pool' } },
     { key: 'finishing', label: { id: 'Finishing', en: 'Finishing' } }
   ];
 
-  const projectRef = { id: 'Rumah Ms. Mala — Cisarua, Bogor', en: 'Ms. Mala Residence — Cisarua, Bogor' };
+  const projectRef = { id: 'Dokumentasi Lapangan RGI', en: 'RGI Site Documentation' };
 
   const library = [
     {
@@ -509,14 +567,6 @@ window.RGI = (function () {
       }
     },
     {
-      img: 'site-07', stage: 'pondasi',
-      title: { id: 'Pembesian sloof menerus', en: 'Continuous tie-beam reinforcement' },
-      desc: {
-        id: 'Rangkaian tulangan sloof dipasang sepanjang jalur galian, dicek jarak sengkang dan selimut betonnya.',
-        en: 'Tie-beam reinforcement is installed along the trench; stirrup spacing and concrete cover are verified.'
-      }
-    },
-    {
       img: 'site-06', stage: 'pondasi',
       title: { id: 'Rangka footplate 120×120', en: 'Footplate cage 120×120' },
       desc: {
@@ -534,7 +584,7 @@ window.RGI = (function () {
     },
     {
       img: 'site-05', stage: 'struktur',
-      title: { id: 'Stek kolom di atas sloof', en: 'Column starter bars above tie beam' },
+      title: { id: 'Stek kolom siap bekisting', en: 'Column starters ready for formwork' },
       desc: {
         id: 'Tulangan stek kolom ditegakkan dan diverifikasi posisinya terhadap as bangunan sebelum pemasangan bekisting.',
         en: 'Column starter bars are set upright and checked against the building grid before formwork is installed.'
@@ -582,29 +632,20 @@ window.RGI = (function () {
     },
     {
       src: 'assets/video/live-site-2.mp4', poster: 'assets/img/library/vid-2-poster.webp', dur: '0:16',
-      stage: 'persiapan',
-      title: { id: 'Penataan material dan area kerja', en: 'Material staging and work area' },
+      stage: 'kolam',
+      title: { id: 'Kolam renang 3 × 7 m — persiapan area', en: 'Swimming pool 3 × 7 m — area preparation' },
       desc: {
-        id: 'Penataan bambu perancah dan material di area kerja, serta kondisi lingkungan sekitar lokasi proyek.',
-        en: 'Bamboo scaffolding and materials staged in the work area, plus the surrounding site conditions.'
+        id: 'Persiapan area dan material untuk kolam renang ukuran 3 × 7 meter dengan kedalaman 1,5 meter.',
+        en: 'Area and material preparation for a 3 × 7 metre swimming pool at 1.5 metres deep.'
       }
     },
     {
       src: 'assets/video/live-site-3.mp4', poster: 'assets/img/library/vid-3-poster.webp', dur: '0:11',
-      stage: 'pondasi',
-      title: { id: 'Galian dan pekerjaan pondasi', en: 'Excavation and foundation work' },
+      stage: 'kolam',
+      title: { id: 'Kolam renang 3 × 7 m — galian & struktur', en: 'Swimming pool 3 × 7 m — excavation & structure' },
       desc: {
-        id: 'Proses galian pondasi pada lahan berkontur beserta pemasangan patok dan tangga akses sementara.',
-        en: 'Foundation excavation on sloping ground, with stakes and temporary access ladders in place.'
-      }
-    },
-    {
-      src: 'assets/video/live-site-4.mp4', poster: 'assets/img/library/vid-4-poster.webp', dur: '0:21',
-      stage: 'pondasi',
-      title: { id: 'Sloof menerus dan stek kolom', en: 'Continuous tie beams and column starters' },
-      desc: {
-        id: 'Panorama area pondasi setelah sloof terpasang: jalur sloof menerus dan stek kolom yang menunggu bekisting.',
-        en: 'Panorama of the foundation area after tie beams: continuous beam runs and column starters awaiting formwork.'
+        id: 'Galian kolam renang 3 × 7 meter sedalam 1,5 meter, termasuk perapian dinding galian dan akses kerja.',
+        en: 'Excavating the 3 × 7 metre pool to a depth of 1.5 metres, including trimming the walls and work access.'
       }
     },
     {
@@ -702,6 +743,20 @@ window.RGI = (function () {
       'plan.legendCol': 'Kolom',
       'plan.legendBeam': 'Balok & atap',
       'lib.videoNav': 'Navigasi video',
+      'lib.projectTitle': 'Dokumentasi Lapangan RGI',
+      'team.eyebrow': 'Tim Kami',
+      'team.title': 'Orang-orang di balik setiap proyek',
+      'team.lead': 'Proyek tidak berjalan sendiri. Berikut orang-orang yang menandatangani, mengawasi, dan bertanggung jawab atas pekerjaan di lapangan.',
+      'team.ownerLabel': 'Pemilik Perusahaan',
+      'team.expertLabel': 'Tenaga Ahli & Pelaksana',
+      'team.photoSoon': 'Foto menyusul',
+      'team.nav': 'Navigasi tim',
+      'photo.eyebrow': 'Foto Utama',
+      'photo.title': 'Hasil kerja yang bisa dilihat langsung',
+      'photo.lead': 'Satu bidikan dari proyek yang kami tangani — dari struktur sampai finishing, dikerjakan oleh tim yang sama.',
+      'photo.caption': 'Hunian dua lantai bergaya klasik — fasad depan pada waktu senja.',
+      'nav.sections': 'Pilihan halaman',
+      'nav.closeMenu': 'Tutup pilihan halaman',
       'cta.wa': 'Konsultasi via WhatsApp',
       'cta.waShort': 'WhatsApp',
       'cta.services': 'Lihat Layanan',
@@ -721,8 +776,8 @@ window.RGI = (function () {
       'hero.m2k': 'Legalitas',
       'hero.m2v': 'Terdaftar Resmi',
       'hero.m2s': 'NIB · NPWP · SBU · SIUJK',
-      'hero.m3k': 'Garansi Retensi',
-      'hero.m3v': '6–12 Bulan',
+      'hero.m3k': 'Garansi Pekerjaan',
+      'hero.m3v': '5 Tahun',
       'hero.m3s': 'Setelah Berita Acara Serah Terima',
 
       'exec.eyebrow': 'Ringkasan Perusahaan',
@@ -732,7 +787,7 @@ window.RGI = (function () {
       'exec.p3': 'Kami percaya kepercayaan tidak diminta, melainkan dibangun — lewat pekerjaan yang bisa diperiksa, laporan yang bisa dibaca, dan hasil yang bertahan setelah proyek selesai.',
       'exec.s1': 'Layanan konstruksi terintegrasi',
       'exec.s2': 'Tahap SOP proyek terstandar',
-      'exec.s3': 'Bulan masa retensi garansi',
+      'exec.s3': 'Tahun garansi pekerjaan',
 
       'trust.title': 'Legalitas & Administrasi',
       'trust.nib': 'Nomor Induk Berusaha aktif',
@@ -755,7 +810,7 @@ window.RGI = (function () {
       'vm.m4t': 'Mengedepankan keselamatan kerja',
       'vm.m4d': 'Menerapkan prosedur K3 di seluruh area proyek dengan target nihil kecelakaan kerja.',
       'vm.m5t': 'Membangun hubungan jangka panjang',
-      'vm.m5d': 'Mendampingi pemilik proyek melewati masa retensi, bukan berhenti pada saat pembayaran terakhir.',
+      'vm.m5d': 'Mendampingi pemilik proyek melewati masa garansi, bukan berhenti pada saat pembayaran terakhir.',
 
       'svc.eyebrow': 'Layanan',
       'svc.title': 'Enam lini pekerjaan, satu standar mutu',
@@ -803,7 +858,7 @@ window.RGI = (function () {
       'plan.sheetLabel': 'Lembar gambar',
       'plan.scale': 'Skala',
       'plan.zoomHint': 'Ketuk gambar untuk memperbesar',
-      'plan.consultant': 'Konsultan perencana: Dani Architecture Design',
+      'plan.consultant': 'Gambar kerja proyek residensial tiga lantai',
       'plan.placeholderTitle': 'Sketsa denah akan ditampilkan di sini',
       'plan.placeholderDesc': 'Slot ini disiapkan untuk sketsa denah tambahan. Letakkan berkas gambar di folder assets/img/teknis lalu daftarkan pada data.js.',
       'plan.3dEyebrow': 'Model Struktur',
@@ -910,6 +965,20 @@ window.RGI = (function () {
       'plan.legendCol': 'Columns',
       'plan.legendBeam': 'Beams & roof',
       'lib.videoNav': 'Video navigation',
+      'lib.projectTitle': 'RGI Site Documentation',
+      'team.eyebrow': 'Our Team',
+      'team.title': 'The people behind every project',
+      'team.lead': 'A project does not run itself. These are the people who sign off on the work, supervise it, and answer for it on site.',
+      'team.ownerLabel': 'Company Principal',
+      'team.expertLabel': 'Experts & Site Team',
+      'team.photoSoon': 'Photo to follow',
+      'team.nav': 'Team navigation',
+      'photo.eyebrow': 'Featured Photo',
+      'photo.title': 'Work you can see for yourself',
+      'photo.lead': 'One frame from a project we handled — from structure through to finishing, delivered by the same team.',
+      'photo.caption': 'Two-storey classical residence — front facade at dusk.',
+      'nav.sections': 'Page menu',
+      'nav.closeMenu': 'Close page menu',
       'cta.wa': 'Consult via WhatsApp',
       'cta.waShort': 'WhatsApp',
       'cta.services': 'View Services',
@@ -929,8 +998,8 @@ window.RGI = (function () {
       'hero.m2k': 'Legality',
       'hero.m2v': 'Officially Registered',
       'hero.m2s': 'NIB · NPWP · SBU · SIUJK',
-      'hero.m3k': 'Retention Warranty',
-      'hero.m3v': '6–12 Months',
+      'hero.m3k': 'Workmanship Warranty',
+      'hero.m3v': '5 Years',
       'hero.m3s': 'After the formal handover document',
 
       'exec.eyebrow': 'Executive Summary',
@@ -940,7 +1009,7 @@ window.RGI = (function () {
       'exec.p3': 'We believe trust is not requested but built — through work that can be inspected, reports that can be read, and results that hold up long after the project ends.',
       'exec.s1': 'Integrated construction services',
       'exec.s2': 'Standardised project SOP stages',
-      'exec.s3': 'Months of retention warranty',
+      'exec.s3': 'Years of workmanship warranty',
 
       'trust.title': 'Legality & Administration',
       'trust.nib': 'Active business identification number',
@@ -963,7 +1032,7 @@ window.RGI = (function () {
       'vm.m4t': 'Prioritise workplace safety',
       'vm.m4d': 'Apply health and safety procedures across the whole site, with a zero-accident target.',
       'vm.m5t': 'Build long-term relationships',
-      'vm.m5d': 'Stay with the owner through the retention period, rather than stopping at the final payment.',
+      'vm.m5d': 'Stay with the owner through the warranty period, rather than stopping at the final payment.',
 
       'svc.eyebrow': 'Services',
       'svc.title': 'Six lines of work, one quality standard',
@@ -1011,7 +1080,7 @@ window.RGI = (function () {
       'plan.sheetLabel': 'Drawing sheet',
       'plan.scale': 'Scale',
       'plan.zoomHint': 'Tap the drawing to enlarge',
-      'plan.consultant': 'Design consultant: Dani Architecture Design',
+      'plan.consultant': 'Working drawings for a three-storey residential project',
       'plan.placeholderTitle': 'Additional sketch will appear here',
       'plan.placeholderDesc': 'This slot is reserved for an additional floor plan sketch. Place the image file in assets/img/teknis and register it in data.js.',
       'plan.3dEyebrow': 'Structural Model',
@@ -1087,7 +1156,7 @@ window.RGI = (function () {
 
   return {
     company: company, legal: legal, services: services, sop: sop, compare: compare,
-    quick: quick, bpStages: bpStages,
+    quick: quick, bpStages: bpStages, owner: owner, team: team,
     safety: safety, projects: projects, library: library, stages: stages,
     projectRef: projectRef, videos: videos, sheets: sheets, sheetGroups: sheetGroups, t: t
   };

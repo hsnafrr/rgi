@@ -64,9 +64,14 @@
       return;
     }
 
-    var small = window.matchMedia('(max-width: 900px)').matches;
-    var src = (small && video.dataset.srcSm) ? video.dataset.srcSm : video.dataset.src;
+    // Ponsel memakai berkas potret tersendiri: 15 fps dan SETIAP frame adalah
+    // keyframe, sehingga setiap seek langsung ketemu tanpa harus mendekode
+    // frame antara — inilah yang membuat scrub tidak lagi patah-patah.
+    var small = window.matchMedia('(max-width: 820px)').matches;
+    var src = (small && video.dataset.srcMobile) ? video.dataset.srcMobile : video.dataset.src;
     if (!src) { heroStatic(); return; }
+    if (small && video.dataset.posterMobile) video.poster = video.dataset.posterMobile;
+    var FPS = small ? 15 : 24;
 
     var settled = false;
     var failTimer = setTimeout(function () { if (!settled) { settled = true; heroStatic(); } }, 6000);
@@ -121,11 +126,13 @@
     function bindScrub(dur) {
       try { video.currentTime = 0; } catch (e) {}
 
-      var pending = null, want = 0, lastCls = '';
+      var pending = null, want = 0, lastCls = '', step = 1 / FPS;
       function seek() {
         pending = null;
-        var t = Math.min(want, dur - 0.05);
-        if (Math.abs(video.currentTime - t) < 0.015) return;
+        // Dibulatkan ke batas frame: seek ke posisi di tengah frame hanya
+        // menghasilkan gambar yang sama, jadi hemat satu operasi dekode.
+        var t = Math.min(Math.round(want / step) * step, dur - step);
+        if (Math.abs(video.currentTime - t) < step * 0.5) return;
         try { video.currentTime = t; } catch (e) {}
       }
 
@@ -133,7 +140,7 @@
         trigger: hero,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: true,
+        scrub: small ? 0.35 : true,   // sedikit perataan di ponsel
         invalidateOnRefresh: true,
         onUpdate: function (self) {
           var p = self.progress;

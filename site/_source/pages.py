@@ -38,6 +38,55 @@ def carousel(render, delay, title_key, lead_key=None, dark=False):
     </div>'''
 
 
+FEATURE = '''<section class="section section--defer" id="foto-utama">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="photo.eyebrow"></p>
+      <h2 class="h2" data-i18n="photo.title"></h2>
+      <p class="lead" data-i18n="photo.lead"></p>
+    </div>
+    <figure class="feature-photo" data-reveal>
+      <img src="assets/img/portfolio/klasik-fasad-depan.webp" width="1600" height="999"
+           loading="lazy" decoding="async"
+           alt="Fasad depan hunian dua lantai bergaya klasik pada waktu senja">
+      <figcaption class="feature-photo__cap">
+        <p data-i18n="photo.caption"></p>
+        <span class="tag" data-i18n="porto.note"></span>
+      </figcaption>
+    </figure>
+  </div>
+</section>'''
+
+TEAM = '''<section class="section section--alt section--defer" id="tim">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="team.eyebrow"></p>
+      <h2 class="h2" data-i18n="team.title"></h2>
+      <p class="lead" data-i18n="team.lead"></p>
+    </div>
+
+    <div class="owner" data-render="owner" data-reveal></div>
+
+    <div class="carousel carousel--team" data-carousel="6000"
+         style="margin-top:clamp(2.5rem,5vw,3.75rem)">
+      <div class="head-row">
+        <div class="section-head" style="margin-bottom:0" data-reveal>
+          <h3 class="h3" data-i18n="team.expertLabel"></h3>
+        </div>
+        <div class="carousel__ctrl" data-reveal>
+          <div class="carousel__dots" data-car-dots
+               data-i18n-attr="aria-label:team.nav"></div>
+          <button class="carousel__btn" type="button" data-car-prev
+                  data-i18n-attr="aria-label:lb.prev">''' + CHEV_L + '''</button>
+          <button class="carousel__btn" type="button" data-car-next
+                  data-i18n-attr="aria-label:lb.next">''' + CHEV_R + '''</button>
+        </div>
+      </div>
+      <div class="carousel__rail" data-render="team"></div>
+    </div>
+  </div>
+</section>'''
+
 QUICK = '''<section class="section section--alt section--defer" id="pesan-cepat">
   <div class="container">
     <div class="section-head section-head--center" data-reveal>
@@ -58,8 +107,9 @@ HOME = '''<section class="hero hero--scroll" data-hero>
     <div class="hero__media">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"
              poster="assets/img/hero/hero-lahan.webp"
+             data-poster-mobile="assets/img/hero/hero-lahan-mobile.webp"
              data-src="assets/video/hero-scrub.mp4"
-             data-src-sm="assets/video/hero-scrub-sm.mp4"></video>
+             data-src-mobile="assets/video/hero-scrub-mobile.mp4"></video>
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="container hero__inner">
@@ -98,7 +148,7 @@ HOME = '''<section class="hero hero--scroll" data-hero>
             <span class="stat__l" data-i18n="exec.s1"></span></div>
           <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s2"></span></div>
-          <div class="stat"><span class="stat__n" data-count="12">12</span>
+          <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s3"></span></div>
         </div>
       </div>
@@ -136,6 +186,8 @@ HOME = '''<section class="hero hero--scroll" data-hero>
     </div>
   </div>
 </section>
+
+''' + FEATURE + '''
 
 ''' + VM + '''
 
@@ -239,7 +291,7 @@ ABOUT = page_hero("about.eyebrow", "about.title", "about.lead", "nav.about") + '
             <span class="stat__l" data-i18n="exec.s1"></span></div>
           <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s2"></span></div>
-          <div class="stat"><span class="stat__n" data-count="12">12</span>
+          <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s3"></span></div>
         </div>
       </div>
@@ -249,7 +301,9 @@ ABOUT = page_hero("about.eyebrow", "about.title", "about.lead", "nav.about") + '
 
 ''' + VM + '''
 
-<section class="section section--alt section--defer" id="legalitas">
+''' + TEAM + '''
+
+<section class="section section--defer" id="legalitas">
   <div class="container">
     <div class="section-head" data-reveal>
       <p class="eyebrow" data-i18n="about.legalEyebrow"></p>
@@ -321,15 +375,16 @@ PLAN = page_hero("plan.eyebrow", "plan.title", "plan.lead", "nav.plan") + '''
   </div>
 </section>
 
-<section class="section section--dark section--defer">
+<section class="section section--dark section--defer bp-section">
   <div class="container">
-    <div class="section-head" data-reveal>
+    <div class="section-head section-head--center" data-reveal>
       <p class="eyebrow" data-i18n="plan.3dEyebrow"></p>
       <h2 class="h2" data-i18n="plan.3dTitle"></h2>
       <p class="lead" data-i18n="plan.3dLead"></p>
     </div>
     <div class="bp-layout">
       <div class="blueprint" data-blueprint data-reveal>
+        <div class="bp-progress" aria-hidden="true"><i data-bp-bar></i></div>
         <p class="blueprint__hint" data-i18n="plan.3dHint"></p>
         <p class="blueprint__loading" data-blueprint-loading data-i18n="plan.3dLoading"></p>
         <div class="blueprint__hud">
@@ -370,7 +425,7 @@ PLAN = page_hero("plan.eyebrow", "plan.title", "plan.lead", "nav.plan") + '''
         </video>
       </div>
       <div data-reveal>
-        <h3 class="h3" style="margin-bottom:.75rem">Rumah Ms. Mala &mdash; Cisarua, Bogor</h3>
+        <h3 class="h3" style="margin-bottom:.75rem" data-i18n="lib.projectTitle"></h3>
         <p class="lead" data-i18n="lib.lead"></p>
         <div class="btn-row" style="margin-top:1.75rem">
           <a class="btn btn--primary" href="library.html" data-i18n="cta.library"></a>
@@ -399,7 +454,7 @@ LIBRARY = page_hero("lib.eyebrow", "lib.title", "lib.lead", "nav.library") + '''
     <div class="head-row">
       <div class="section-head" data-reveal style="margin-bottom:0">
         <p class="eyebrow" data-i18n="lib.photos"></p>
-        <h2 class="h2">Rumah Ms. Mala &mdash; Cisarua, Bogor</h2>
+        <h2 class="h2" data-i18n="lib.projectTitle"></h2>
       </div>
       <a class="link-arrow" href="denah.html" data-reveal>
         <span data-i18n="cta.plan"></span>''' + ARROW + '''</a>

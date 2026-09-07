@@ -58,7 +58,8 @@
     alert: '<circle cx="12" cy="12" r="9"/><path d="M12 8v4.5M12 16h.01"/>',
     drawing: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 8h18M8 21V8"/><path d="M12 12h5M12 16h5"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
-    pause: '<path d="M9 5v14M15 5v14"/>'
+    pause: '<path d="M9 5v14M15 5v14"/>',
+    user: '<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>'
   };
   function icon(name, cls) {
     var d = P[name] || P.check;
@@ -127,7 +128,7 @@
     document.documentElement.lang = lang;
     var titleKey = document.body.getAttribute('data-title-key');
     if (titleKey) {
-      document.title = T(titleKey) + ' — ' + D.company.shortName + ' · ' + D.company.legalName;
+      document.title = T(titleKey) + ' — ' + D.company.legalName;
     }
     $$('.lang__btn').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
@@ -156,23 +157,58 @@
       window.addEventListener('scroll', onScroll, { passive: true });
     }
 
-    var burger = $('.burger'), menu = $('.mobile-nav');
-    if (burger && menu) {
-      var toggle = function (open) {
-        burger.setAttribute('aria-expanded', String(open));
-        burger.setAttribute('aria-label', T(open ? 'nav.close' : 'nav.open'));
-        menu.classList.toggle('is-open', open);
+    /* Menu titik tiga: tekan untuk membuka, tekan lagi untuk menutup.
+       Juga tertutup lewat Escape, klik di luar, tombol Tutup, atau saat
+       salah satu tautan dipilih. */
+    var kebab = $('.kebab');
+    var panel = $('.menu-panel');
+    var scrim = $('[data-menu-scrim]');
+    if (kebab && panel) {
+      var isOpen = false;
+      var openMenu = function (open) {
+        if (open === isOpen) return;
+        isOpen = open;
+        kebab.setAttribute('aria-expanded', String(open));
+        kebab.setAttribute('aria-label', T(open ? 'nav.closeMenu' : 'nav.sections'));
         document.body.classList.toggle('nav-open', open);
+        if (open) {
+          panel.hidden = false;
+          if (scrim) scrim.hidden = false;
+          requestAnimationFrame(function () {
+            panel.classList.add('is-open');
+            if (scrim) scrim.classList.add('is-open');
+          });
+          setTimeout(function () {
+            panel.classList.add('is-open');
+            if (scrim) scrim.classList.add('is-open');
+          }, 30);
+        } else {
+          panel.classList.remove('is-open');
+          if (scrim) scrim.classList.remove('is-open');
+          setTimeout(function () {
+            if (isOpen) return;
+            panel.hidden = true;
+            if (scrim) scrim.hidden = true;
+          }, 280);
+        }
       };
-      burger.addEventListener('click', function () {
-        toggle(burger.getAttribute('aria-expanded') !== 'true');
+      window.rgiCloseMenu = function () { openMenu(false); };
+
+      kebab.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openMenu(!isOpen);
       });
-      $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { toggle(false); }); });
+      if (scrim) scrim.addEventListener('click', function () { openMenu(false); });
+      $$('[data-menu-close]', panel).forEach(function (b) {
+        b.addEventListener('click', function () { openMenu(false); kebab.focus(); });
+      });
+      $$('a', panel).forEach(function (a) {
+        a.addEventListener('click', function () { openMenu(false); });
+      });
+      panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      document.addEventListener('click', function () { if (isOpen) openMenu(false); });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && menu.classList.contains('is-open')) { toggle(false); burger.focus(); }
-      });
-      window.addEventListener('resize', function () {
-        if (window.innerWidth > 1024 && menu.classList.contains('is-open')) toggle(false);
+        if (e.key === 'Escape' && isOpen) { openMenu(false); kebab.focus(); }
       });
     }
 
@@ -839,6 +875,50 @@
     });
   }
 
+  /* ---------------- tim ---------------- */
+  function initTeam() {
+    var ownerEl = $('[data-render="owner"]');
+    var listEl = $('[data-render="team"]');
+    if (!ownerEl && !listEl) return;
+
+    if (ownerEl) {
+      register(function () {
+        var o = D.owner;
+        ownerEl.innerHTML =
+          '<div class="owner__media">' +
+          '<span class="owner__badge">' + icon('badge') + esc(T('team.ownerLabel')) + '</span>' +
+          '<img src="assets/img/tim/' + o.photo + '.webp" width="900" height="900" ' +
+          'loading="lazy" decoding="async" alt="' + esc(o.name) + '"></div>' +
+          '<div class="owner__body">' +
+          '<p class="owner__role">' + esc(L(o.role)) + '</p>' +
+          '<p class="owner__name">' + esc(o.name) + '</p>' +
+          '<blockquote class="owner__quote">' + esc(L(o.quote)) + '</blockquote>' +
+          '<p class="owner__bio">' + esc(L(o.bio)) + '</p></div>';
+        rendered();
+      });
+    }
+
+    if (listEl) {
+      register(function () {
+        listEl.innerHTML = D.team.map(function (m, i) {
+          var media = m.photo
+            ? '<span class="tcard__media"><span class="tcard__n">' + pad(i + 1) + '</span>' +
+              '<img src="assets/img/tim/' + m.photo + '-sm.webp" width="400" height="533" ' +
+              'loading="lazy" decoding="async" alt="' + esc(m.name) + '"></span>'
+            : '<span class="tcard__media tcard__media--empty">' +
+              '<span class="tcard__n">' + pad(i + 1) + '</span>' +
+              icon('user') + '<span>' + esc(T('team.photoSoon')) + '</span></span>';
+          return '<article class="tcard">' + media +
+            '<span class="tcard__body">' +
+            '<span class="tcard__role">' + esc(L(m.role)) + '</span>' +
+            '<span class="tcard__name">' + esc(m.name) + '</span>' +
+            '<span class="tcard__desc">' + esc(L(m.desc)) + '</span></span></article>';
+        }).join('');
+        rendered();
+      });
+    }
+  }
+
   /* =======================================================================
      STEPPER TAHAP STRUKTUR 3D
      Tombol tahap tetap berfungsi walau model 3D belum/tidak termuat:
@@ -896,6 +976,12 @@
     document.addEventListener('rgi:bp-stage', function (e) {
       if (e.detail.index === active) return;
       setActive(e.detail.index, true);
+    });
+
+    // Bilah progres tipis di atas kanvas, mengikuti penyusunan struktur.
+    document.addEventListener('rgi:bp-progress', function (e) {
+      var bar = host && $('[data-bp-bar]', host);
+      if (bar) bar.style.transform = 'scaleX(' + e.detail.p.toFixed(4) + ')';
     });
 
     // Model dimuat belakangan; kalau pengguna sudah memilih tahap, ulangi
@@ -1097,6 +1183,7 @@
     initSafety();
     initLegal();
     initProjects();
+    initTeam();
     initLibrary();
     initSheetSlider();
     initBlueprintSteps();

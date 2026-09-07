@@ -26,36 +26,30 @@
 <header class="header">
   <div class="container header__inner">
     <a class="brand" href="index.html" aria-label="PT RIV Group Indonesia">
-      <img class="brand__mark" src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="Logo RGI">
+      <img class="brand__mark" src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="Logo PT RIV Group Indonesia">
       <span class="brand__text">
-        <span class="brand__name">RGI</span>
+        <span class="brand__name">PT RIV GROUP INDONESIA</span>
         <span class="brand__tag" data-i18n="meta.tagline"></span>
       </span>
     </a>
-    <nav class="nav" aria-label="Utama">
-        <a class="nav__link" href="index.html" data-i18n="nav.home"></a>
-        <a class="nav__link" href="tentang.html" aria-current="page" data-i18n="nav.about"></a>
-        <a class="nav__link" href="layanan.html" data-i18n="nav.services"></a>
-        <a class="nav__link" href="denah.html" data-i18n="nav.plan"></a>
-        <a class="nav__link" href="library.html" data-i18n="nav.library"></a>
-        <a class="nav__link" href="portofolio.html" data-i18n="nav.portfolio"></a>
-        <a class="nav__link" href="kontak.html" data-i18n="nav.contact"></a>
-    </nav>
     <div class="header__actions">
       <div class="lang" role="group" data-i18n-attr="aria-label:lang.label">
         <button class="lang__btn" type="button" data-lang="id" aria-pressed="true">ID</button>
         <button class="lang__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <a class="btn btn--primary btn--sm header__cta" href="kontak.html" data-i18n="cta.contact"></a>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav"
-              data-i18n-attr="aria-label:nav.open">
-        <span></span><span></span><span></span>
+      <button class="kebab" type="button" aria-expanded="false" aria-controls="page-menu"
+              data-i18n-attr="aria-label:nav.sections">
+        <span class="kebab__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="kebab__x" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 </header>
 
-<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+<div class="menu-scrim" data-menu-scrim hidden></div>
+<nav class="menu-panel" id="page-menu" data-i18n-attr="aria-label:nav.sections" hidden>
+  <p class="menu-panel__label" data-i18n="nav.sections"></p>
   <a class="mobile-nav__link" href="index.html"><span data-i18n="nav.home"></span><em>01</em></a>
         <a class="mobile-nav__link" href="tentang.html" aria-current="page"><span data-i18n="nav.about"></span><em>02</em></a>
         <a class="mobile-nav__link" href="layanan.html"><span data-i18n="nav.services"></span><em>03</em></a>
@@ -63,10 +57,10 @@
         <a class="mobile-nav__link" href="library.html"><span data-i18n="nav.library"></span><em>05</em></a>
         <a class="mobile-nav__link" href="portofolio.html"><span data-i18n="nav.portfolio"></span><em>06</em></a>
         <a class="mobile-nav__link" href="kontak.html"><span data-i18n="nav.contact"></span><em>07</em></a>
-  <div class="mobile-nav__foot">
+  <div class="menu-panel__foot">
     <a class="btn btn--wa" href="#" data-wa-link target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5 5 16.2A8.4 8.4 0 1 1 8.2 19.3l-4.7 1.2Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5.6 0 1-.5 1-1l-.2-1-1.7-.6-.9 1a5.6 5.6 0 0 1-2.1-2.1l1-.9-.6-1.7-1-.2c-.5 0-1 .4-1 1Z"/></svg><span data-i18n="cta.wa"></span></a>
-    <a class="btn btn--ghost" href="kontak.html" data-i18n="cta.contact"></a>
+    <button class="btn btn--ghost" type="button" data-menu-close data-i18n="nav.closeMenu"></button>
   </div>
 </nav>
 
@@ -104,7 +98,7 @@
             <span class="stat__l" data-i18n="exec.s1"></span></div>
           <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s2"></span></div>
-          <div class="stat"><span class="stat__n" data-count="12">12</span>
+          <div class="stat"><span class="stat__n" data-count="5">5</span>
             <span class="stat__l" data-i18n="exec.s3"></span></div>
         </div>
       </div>
@@ -137,7 +131,37 @@
   </div>
 </section>
 
-<section class="section section--alt section--defer" id="legalitas">
+<section class="section section--alt section--defer" id="tim">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="team.eyebrow"></p>
+      <h2 class="h2" data-i18n="team.title"></h2>
+      <p class="lead" data-i18n="team.lead"></p>
+    </div>
+
+    <div class="owner" data-render="owner" data-reveal></div>
+
+    <div class="carousel carousel--team" data-carousel="6000"
+         style="margin-top:clamp(2.5rem,5vw,3.75rem)">
+      <div class="head-row">
+        <div class="section-head" style="margin-bottom:0" data-reveal>
+          <h3 class="h3" data-i18n="team.expertLabel"></h3>
+        </div>
+        <div class="carousel__ctrl" data-reveal>
+          <div class="carousel__dots" data-car-dots
+               data-i18n-attr="aria-label:team.nav"></div>
+          <button class="carousel__btn" type="button" data-car-prev
+                  data-i18n-attr="aria-label:lb.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg></button>
+          <button class="carousel__btn" type="button" data-car-next
+                  data-i18n-attr="aria-label:lb.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <div class="carousel__rail" data-render="team"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--defer" id="legalitas">
   <div class="container">
     <div class="section-head" data-reveal>
       <p class="eyebrow" data-i18n="about.legalEyebrow"></p>
@@ -197,7 +221,7 @@
         <div class="footer__brand">
           <img src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="">
           <span class="brand__text">
-            <span class="brand__name">RGI</span>
+            <span class="brand__name">PT RIV GROUP INDONESIA</span>
             <span class="brand__tag" data-i18n="meta.tagline"></span>
           </span>
         </div>

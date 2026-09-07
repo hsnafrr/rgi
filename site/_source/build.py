@@ -106,35 +106,35 @@ def shell(page, title_key, body, desc_id, extra_head="", extra_js="", title=""):
 <header class="header">
   <div class="container header__inner">
     <a class="brand" href="index.html" aria-label="PT RIV Group Indonesia">
-      <img class="brand__mark" src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="Logo RGI">
+      <img class="brand__mark" src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="Logo PT RIV Group Indonesia">
       <span class="brand__text">
-        <span class="brand__name">RGI</span>
+        <span class="brand__name">PT RIV GROUP INDONESIA</span>
         <span class="brand__tag" data-i18n="meta.tagline"></span>
       </span>
     </a>
-    <nav class="nav" aria-label="Utama">
-        {nav_links(active)}
-    </nav>
     <div class="header__actions">
       <div class="lang" role="group" data-i18n-attr="aria-label:lang.label">
         <button class="lang__btn" type="button" data-lang="id" aria-pressed="true">ID</button>
         <button class="lang__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <a class="btn btn--primary btn--sm header__cta" href="kontak.html" data-i18n="cta.contact"></a>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav"
-              data-i18n-attr="aria-label:nav.open">
-        <span></span><span></span><span></span>
+      <button class="kebab" type="button" aria-expanded="false" aria-controls="page-menu"
+              data-i18n-attr="aria-label:nav.sections">
+        <span class="kebab__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="kebab__x" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 </header>
 
-<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+<div class="menu-scrim" data-menu-scrim hidden></div>
+<nav class="menu-panel" id="page-menu" data-i18n-attr="aria-label:nav.sections" hidden>
+  <p class="menu-panel__label" data-i18n="nav.sections"></p>
   {nav_links(active, mobile=True)}
-  <div class="mobile-nav__foot">
+  <div class="menu-panel__foot">
     <a class="btn btn--wa" href="#" data-wa-link target="_blank" rel="noopener">
       {svg("wa")}<span data-i18n="cta.wa"></span></a>
-    <a class="btn btn--ghost" href="kontak.html" data-i18n="cta.contact"></a>
+    <button class="btn btn--ghost" type="button" data-menu-close data-i18n="nav.closeMenu"></button>
   </div>
 </nav>
 
@@ -149,7 +149,7 @@ def shell(page, title_key, body, desc_id, extra_head="", extra_js="", title=""):
         <div class="footer__brand">
           <img src="assets/img/brand/rgi-logo.png" width="512" height="364" alt="">
           <span class="brand__text">
-            <span class="brand__name">RGI</span>
+            <span class="brand__name">PT RIV GROUP INDONESIA</span>
             <span class="brand__tag" data-i18n="meta.tagline"></span>
           </span>
         </div>

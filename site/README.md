@@ -1,7 +1,9 @@
-# Website Company Profile — PT RIV Group Indonesia (RGI)
+# Website Company Profile — PT RIV Group Indonesia
 
 Situs statis 7 halaman, dwibahasa (Indonesia / English), tanpa proses build.
-Unggah isi folder ini ke hosting mana pun (Netlify, Vercel, cPanel, GitHub Pages).
+
+- **Live:** <https://rgi-phi.vercel.app>
+- **Repo:** <https://github.com/hsnafrr/rgi> (branch `main`, root directory `site`)
 
 ---
 
@@ -15,13 +17,11 @@ python _source/serve.py
 
 Lalu buka <http://localhost:5183>.
 
-> **Penting.** Hero memutar video mengikuti gulir, dan itu hanya bisa bekerja bila
-> server mendukung **HTTP Range request** (permintaan sebagian berkas).
-> `python -m http.server` bawaan Python **tidak** mendukungnya, sehingga video
-> tidak bisa di-*seek* dan hero jatuh ke mode putar biasa.
-> `_source/serve.py` sudah mendukung Range. Semua hosting sungguhan
-> (Netlify, Vercel, Apache, nginx, cPanel, GitHub Pages) mendukungnya secara bawaan —
-> jadi ini hanya persoalan saat menguji di komputer sendiri.
+> **Kenapa tidak `http.server` bawaan?** Hero memutar video mengikuti gulir, dan
+> itu hanya bekerja bila server mendukung **HTTP Range request**. `http.server`
+> bawaan Python tidak mendukungnya, sehingga video tidak bisa di-*seek* dan hero
+> jatuh ke mode putar biasa. `_source/serve.py` sudah mendukung Range; semua
+> hosting sungguhan (Vercel, Netlify, Apache, nginx, cPanel) juga.
 
 ---
 
@@ -29,23 +29,23 @@ Lalu buka <http://localhost:5183>.
 
 ```
 site/
-├─ index.html          Beranda (hero scroll-driven)
-├─ tentang.html        Tentang & Legalitas
+├─ index.html          Beranda: hero scroll-driven, foto utama, pesan cepat
+├─ tentang.html        Tentang, visi-misi, TIM, legalitas
 ├─ layanan.html        Layanan + SOP proyek
-├─ denah.html          Slider gambar kerja + model struktur 3D + video live site
+├─ denah.html          Slider gambar kerja + model 3D 6 tahap + video live site
 ├─ library.html        Library proses pengerjaan (galeri + carousel video)
 ├─ portofolio.html     Portofolio proyek (filter + lightbox)
 ├─ kontak.html         Pesan cepat + formulir konsultasi + peta
-├─ robots.txt, sitemap.xml
+├─ vercel.json, .vercelignore, robots.txt, sitemap.xml
 ├─ assets/
 │  ├─ css/style.css           Seluruh sistem desain
 │  ├─ js/data.js              ← SEMUA KONTEN & TERJEMAHAN ADA DI SINI
-│  ├─ js/app.js               i18n, navigasi, slider, carousel, lightbox, form
+│  ├─ js/app.js               i18n, menu, slider, carousel, lightbox, form, tim
 │  ├─ js/motion.js            Hero scroll-driven + animasi gulir (GSAP)
 │  ├─ js/blueprint.js         Pemuat model 3D (menunda unduhan Three.js)
-│  ├─ js/blueprint-scene.js   Model struktur 3D (Three.js)
-│  ├─ img/                    brand · hero · portfolio · teknis · library
-│  └─ video/                  hero-scrub · hero-scrub-sm · live-site-1..5
+│  ├─ js/blueprint-scene.js   Model 3D: wireframe struktur → rumah jadi
+│  ├─ img/                    brand · hero · portfolio · teknis · library · tim
+│  └─ video/                  hero-scrub · hero-scrub-mobile · live-site-1,2,3,5
 └─ _source/                   Generator halaman + server dev + alat QA
 ```
 
@@ -60,6 +60,8 @@ site/
 | Alamat, email, WhatsApp, jam operasional | `company` |
 | Nomor NIB / NPWP / SBU / SIUJK | `legal` → isi kolom `number` |
 | Tombol "Pesan Cepat" WhatsApp | `quick` |
+| **Kartu owner** (Muhammad Rivky) | `owner` |
+| **Kartu tenaga ahli** (slider) | `team` |
 | Enam layanan | `services` |
 | Lima tahap SOP | `sop` |
 | Tabel "Mengapa Memilih RGI" | `compare` |
@@ -68,26 +70,31 @@ site/
 | Foto library proses | `library` |
 | Video live site | `videos` |
 | Lembar gambar teknis (slider Denah) | `sheets` |
-| Tahap model struktur 3D | `bpStages` |
+| Enam tahap model 3D | `bpStages` |
 | Semua label antarmuka | `t.id` dan `t.en` |
 
-Setiap teks ditulis berpasangan:
+Setiap teks ditulis berpasangan: `{ id: 'Bahasa Indonesia', en: 'English' }`.
+
+### Menambah foto tim
+
+1. Simpan dua ukuran di `assets/img/tim/`: `nama.webp` (720×960) dan
+   `nama-sm.webp` (400×533).
+2. Isi kolom `photo` pada entri yang bersangkutan di `data.js`:
 
 ```js
-title: { id: 'Judul Bahasa Indonesia', en: 'English title' }
+{ photo: 'kadzim', name: 'Sholeh Kadzim, S.Ars.', role: {...}, desc: {...} }
 ```
+
+Selama `photo` masih `''`, kartunya tetap tampil dengan bingkai
+*"Foto menyusul"* — jadi tata letak tidak berubah saat foto ditambahkan nanti.
+
+> Peran Sholeh Kadzim saat ini diisi **"Arsitek"** (menyesuaikan gelar S.Ars.).
+> Ganti di `data.js` bila jabatannya berbeda.
 
 ### Menampilkan nomor legalitas
 
 Bawaannya kartu legalitas menampilkan *"Nomor registrasi tersedia atas permintaan"*.
-Isi kolom `number` bila nomor resmi sudah boleh ditayangkan publik:
-
-```js
-{ code: 'NIB', number: '0123456789012', name: {...}, desc: {...} }
-```
-
-> Situs sengaja **tidak** menayangkan pindaian dokumen asli, karena dokumen
-> tersebut memuat data pribadi pengurus perusahaan.
+Isi kolom `number` bila nomor resmi sudah boleh ditayangkan publik.
 
 ---
 
@@ -98,145 +105,137 @@ pengunjung tinggal melengkapi bagian dalam tanda kurung lalu menekan kirim.
 
 | Letak | Isi pesan |
 |---|---|
-| Bagian "Pesan Cepat" (Beranda, Layanan, Denah, Library, Portofolio, Kontak) | 6 template siap pakai dari `data.js` → `quick` |
-| Tombol di tiap kartu layanan (halaman Layanan) | Otomatis menyebut nama layanan tersebut |
-| Tombol di tiap proyek (halaman Portofolio) | Otomatis menyebut nama & lokasi proyek |
-| Formulir konsultasi (halaman Kontak) | Menyusun isian formulir menjadi pesan |
-| Tombol mengambang & tombol umum | Sapaan konsultasi umum |
+| Bagian "Pesan Cepat" (6 halaman) | 6 template dari `data.js` → `quick` |
+| Tombol di tiap kartu layanan | Otomatis menyebut nama layanan |
+| Tombol di tiap proyek portofolio | Otomatis menyebut nama & lokasi proyek |
+| Formulir konsultasi | Menyusun isian formulir menjadi pesan |
+| Tombol mengambang | Sapaan konsultasi umum |
 
-Menambah template baru: tambahkan satu entri pada array `quick` di `data.js`.
-Baris pesan dipisah dengan `\n`:
-
-```js
-{
-  icon: 'home',
-  title: { id: 'Judul tombol', en: 'Button label' },
-  sub:   { id: 'Keterangan singkat', en: 'Short description' },
-  msg:   { id: 'Kebutuhan: ...\nLokasi: (isi)', en: 'Requirement: ...\nLocation: (fill in)' }
-}
-```
-
-Ikon yang tersedia: `home`, `hammer`, `ruler`, `file`, `mapPin`, `compass`,
-`building`, `road`, `shield`, `clipboard`, `drawing`, `layers`.
+Baris pesan dipisah dengan `\n`. Ikon yang tersedia: `home`, `hammer`, `ruler`,
+`file`, `mapPin`, `compass`, `building`, `road`, `shield`, `clipboard`,
+`drawing`, `layers`, `user`.
 
 ---
 
 ## 5. Hero scroll-driven
 
-Di Beranda, video "lahan kosong → rumah jadi" tidak diputar otomatis: **posisinya
-mengikuti gulir**. Selama video berjalan tidak ada teks sama sekali; judul, tagline,
-dan tombol baru muncul ketika animasi mencapai akhir (ambang 88%).
+Video "lahan kosong → rumah jadi" tidak diputar otomatis: **posisinya mengikuti
+gulir**. Selama video berjalan tidak ada teks sama sekali; judul, tagline, dan
+tombol baru muncul saat animasi mencapai akhir (ambang 88%).
 
-Cara kerja dan pengamannya:
+Ada **dua berkas terpisah**:
 
-- Video di-encode ulang dengan *keyframe* tiap 4 frame supaya seek terasa instan.
-- Layar < 900 px memakai `hero-scrub-sm.mp4` (±1,3 MB), selebihnya
-  `hero-scrub.mp4` (±2,9 MB).
-- Panjang jalur gulir: 300 svh di desktop, 230 svh di ponsel.
-- **Turun otomatis ke hero biasa** (video berputar, teks langsung tampil) bila:
-  server tidak mendukung Range · video gagal dimuat · pengguna memilih
-  *reduced motion* · perangkat memakai mode hemat data atau jaringan 2G.
+| Berkas | Untuk | Ukuran | Catatan |
+|---|---|---|---|
+| `hero-scrub.mp4` | layar > 820 px | 1128×816, 24 fps, ±2,9 MB | keyframe tiap 4 frame |
+| `hero-scrub-mobile.mp4` | layar ≤ 820 px | 640×1386 potret, 15 fps, ±1,4 MB | **setiap frame keyframe** |
 
-Mengganti videonya: ganti kedua berkas di `assets/video/`, lalu perbarui
-`assets/img/hero/hero-lahan.webp` (poster frame pertama).
-Perintah encode yang dipakai ada di §8.
+Versi ponsel dibuat potret dengan pias gelap di atas–bawah, sehingga bangunan
+duduk di paruh atas layar dan teks punya latar bersih di bawahnya. Karena setiap
+frame adalah keyframe, setiap seek langsung ketemu tanpa mendekode frame antara —
+inilah yang menghilangkan patah-patah saat di-scrub di ponsel. JS juga
+membulatkan posisi seek ke batas frame supaya tidak ada dekode yang mubazir.
+
+**Turun otomatis ke hero biasa** (video berputar, teks langsung tampil) bila:
+server tidak mendukung Range · video gagal dimuat · pengguna memilih
+*reduced motion* · perangkat memakai mode hemat data atau jaringan 2G.
+
+Perintah encode ada di §9.
 
 ---
 
-## 6. Bahasa
+## 6. Menu titik tiga
 
-- Tombol `ID | EN` di pojok kanan atas setiap halaman.
-- Bahasa bawaan **Indonesia**; pilihan pengunjung disimpan di `localStorage`.
+Navigasi halaman ada di tombol **titik tiga** di kanan atas (semua ukuran layar).
+
+- Tekan sekali untuk membuka; tombolnya berubah jadi silang.
+- Tekan lagi untuk menutup — juga bisa lewat tombol **Tutup pilihan halaman**,
+  tombol Escape, klik di luar panel, atau memilih salah satu halaman.
+- Di desktop panel muncul sebagai dropdown kanan atas; di ponsel jadi lembar penuh.
+
+---
+
+## 7. Model struktur 3D (halaman Denah)
+
+Enam tahap, dari pondasi sampai **rumah jadi berwarna**:
+
+1. Rencana Pondasi · 2–4. Kolom & Balok Lantai 1–3 · 5. Struktur Atap ·
+6. **Rumah Jadi** — dinding, atap limasan, bukaan berkaca, teras, carport,
+   taman, dan kolam renang 3 × 7 m, memakai palet warna yang sama dengan situs.
+
+- Menggulir menyusun struktur bertahap; menekan tombol tahap melompat ke tahap itu
+  **dan memindahkan gambar kerja di slider atas** ke lembar yang bersesuaian.
+- Pilihan tahap yang ditekan pengguna tidak akan tergeser oleh perhitungan ulang
+  tata letak (mis. saat ganti bahasa) — hanya gulir sungguhan yang mengembalikan
+  kendali ke posisi gulir.
+- Tahap yang sudah lewat diredupkan, tahap aktif ditonjolkan.
+
+---
+
+## 8. Bahasa
+
+- Bawaan **Indonesia**; pilihan pengunjung disimpan di `localStorage`.
 - Teks statis memakai `data-i18n="kunci"`; atribut memakai
   `data-i18n-attr="placeholder:kunci"`.
-- Menambah teks baru: tulis kuncinya di `t.id` **dan** `t.en`, lalu pasang
-  `data-i18n="kunci"` pada elemennya.
+- Menambah teks baru: tulis kuncinya di `t.id` **dan** `t.en`.
 
 ---
 
-## 7. Teknologi & perilaku
+## 9. Teknologi, performa & alat bantu
 
 | Bagian | Pustaka | Sumber |
 |---|---|---|
 | Animasi gulir & hero scrub | GSAP 3.13 + ScrollTrigger | cdnjs (dengan SRI hash) |
-| Model struktur 3D | Three.js 0.170 | jsDelivr (import map) |
+| Model 3D | Three.js 0.170 | jsDelivr (import map) |
 | Font | Source Serif 4 · Work Sans · JetBrains Mono | Google Fonts |
 
 Tidak ada framework, bundler, atau `npm install`.
 
-**Yang sudah dijaga demi kelancaran di ponsel:**
+**Yang dijaga demi kelancaran di ponsel:**
 
-- Three.js (±275 KB) **baru diunduh** saat bagian model 3D mendekati layar —
-  halaman lain tidak menanggung biayanya sama sekali.
-- Model 3D hanya me-*render* saat ada perubahan; berhenti total saat di luar
-  layar atau tab tidak aktif. Rotasi otomatis dimatikan di perangkat sentuh.
-- Slider dan carousel berhenti sendiri saat di luar layar, saat disentuh,
-  saat di-hover, dan saat tab tidak aktif.
-- Semua animasi memakai `transform`/`opacity` saja (tidak memicu reflow).
-- `backdrop-filter` dimatikan di layar ≤ 768 px (mahal di ponsel kelas menengah).
-- Efek hover dinonaktifkan pada perangkat sentuh (`@media (hover:none)`).
-- Gambar `loading="lazy"` + WebP; video H.264 `+faststart`.
-- `prefers-reduced-motion` dihormati di seluruh situs.
-- Bila GSAP gagal dimuat, seluruh konten tetap tampil (tidak ada layar kosong).
+- Three.js (±275 KB) baru diunduh saat bagian model 3D mendekati layar.
+- Model 3D hanya me-*render* saat ada perubahan; berhenti total di luar layar
+  atau saat tab tidak aktif. Rotasi otomatis mati di perangkat sentuh.
+- Slider & carousel berhenti sendiri di luar layar, saat disentuh, di-hover,
+  dan saat tab tidak aktif.
+- Animasi hanya memakai `transform`/`opacity`.
+- `backdrop-filter` dimatikan di layar ≤ 768 px; efek hover dimatikan di
+  perangkat sentuh.
+- `prefers-reduced-motion` dihormati; bila GSAP gagal dimuat konten tetap tampil.
 
----
-
-## 8. Menyunting header / footer & alat bantu
-
-Header, footer, `<head>`, dan tombol WhatsApp mengambang identik di 7 halaman.
-Agar tetap sinkron, ketiganya dihasilkan oleh generator:
+### Alat bantu
 
 ```bash
-python _source/pages.py
+python _source/pages.py     # regenerasi 7 halaman (header/footer/menu)
+python _source/serve.py     # server dev dengan dukungan HTTP Range
 ```
 
-- `_source/build.py` — kerangka halaman (head, header, footer, blok berulang)
-- `_source/pages.py` — isi tiap halaman + daftar judul & deskripsi
-- `_source/serve.py` — server dev dengan dukungan Range (§1)
-- `_source/shots.ps1` — alat QA: render screenshot penuh via Chromium headless
+- `_source/build.py` — kerangka halaman (head, header, menu, footer)
+- `_source/pages.py` — isi tiap halaman
+- `_source/shots.ps1` — render screenshot penuh via Chromium headless (QA)
 
-Menyunting `.html` langsung juga boleh — hanya ingat bahwa menjalankan
-generator akan menimpanya.
+Menyunting `.html` langsung boleh — ingat generator akan menimpanya.
 
-### Perintah encode video hero
+### Encode video hero
 
 ```bash
+# desktop
 ffmpeg -i sumber.mp4 -an -vf "fps=24" -c:v libx264 -profile:v high -pix_fmt yuv420p \
   -crf 28 -preset veryslow -x264-params "keyint=4:min-keyint=4:scenecut=0:bframes=0:ref=2" \
   -movflags +faststart assets/video/hero-scrub.mp4
+
+# ponsel (potret, semua frame keyframe)
+ffmpeg -i sumber.mp4 -an -vf "fps=15,scale=640:-2,pad=640:1386:0:240:0x241C18" \
+  -c:v libx264 -profile:v main -pix_fmt yuv420p -crf 32 -preset veryslow \
+  -x264-params "keyint=1:min-keyint=1:scenecut=0:bframes=0:ref=1" \
+  -movflags +faststart assets/video/hero-scrub-mobile.mp4
 ```
 
-`keyint=4` itulah yang membuat seek terasa instan. Untuk versi ponsel, tambahkan
-`-vf "scale=676:-2,fps=24"` dan `-crf 29`, simpan sebagai `hero-scrub-sm.mp4`.
-
 ---
 
-## 9. Sebelum publikasi
+## 10. Publikasi
 
-- [ ] Ganti `CONTOH-DOMAIN-ANDA.com` di `robots.txt` dan `sitemap.xml`.
-- [ ] Isi nomor legalitas pada `data.js` bila sudah boleh ditayangkan.
-- [ ] Ganti video live site & foto proses dengan dokumentasi terbaru.
-- [ ] Periksa nomor WhatsApp `6285810845898` di `data.js` (`company.waNumber`).
-- [ ] Pastikan hosting mendukung HTTP Range (hampir semua sudah; lihat §1).
-- [ ] Folder `_source/` tidak dipakai saat runtime — boleh ikut diunggah atau tidak.
-
----
-
-## 10. Publikasi (sudah aktif)
-
-Situs sudah live dan terhubung otomatis:
-
-| | |
-|---|---|
-| URL produksi | <https://rgi-phi.vercel.app> |
-| Repositori | <https://github.com/hsnafrr/rgi> (branch `main`) |
-| Proyek Vercel | `rgi` — tim *hsnafrr's projects* |
-| Root Directory | `site` |
-| Dashboard | <https://vercel.com/hsnafrrs-projects/rgi> |
-
-### Cara memperbarui situs
-
-Cukup commit dan push — Vercel otomatis mem-build dan menerbitkan:
+Terhubung otomatis ke GitHub — cukup commit dan push:
 
 ```bash
 cd "C:/Users/hasan/Downloads/RGI"
@@ -245,23 +244,28 @@ git commit -m "Perbarui konten situs"
 git push origin main
 ```
 
-Perubahan biasanya live dalam waktu di bawah satu menit.
+Vercel membangun dan menerbitkan sendiri, biasanya di bawah satu menit.
+
+### Menurunkan / menaikkan situs sementara
+
+Situs bisa di-*pause* dari dashboard Vercel → Settings → **Pause Project**
+(pengunjung mendapat 503, deployment tidak dihapus), lalu **Resume** untuk
+menyalakannya kembali.
 
 ### Catatan cache
 
-`vercel.json` sengaja **tidak** memakai `immutable` untuk CSS/JS, karena nama
-berkasnya tidak mengandung hash isi — kalau dipaksa immutable, pengunjung lama
-bisa tersangkut versi lama sampai setahun. Aturannya sekarang:
+`vercel.json` sengaja **tidak** memakai `immutable` untuk CSS/JS karena nama
+berkasnya tidak mengandung hash isi:
 
 | Berkas | Cache |
 |---|---|
-| `/assets/css/*`, `/assets/js/*` | selalu divalidasi ulang (respons 304 murah) |
+| `/assets/css/*`, `/assets/js/*` | selalu divalidasi ulang (304 murah) |
 | `/assets/img/*`, `/assets/video/*` | 30 hari + `stale-while-revalidate` |
 | HTML | selalu divalidasi ulang |
 
-Bila suatu saat mengganti gambar/video **dengan nama berkas yang sama**,
-pengunjung lama bisa melihat versi lama sampai 30 hari. Cara aman: pakai nama
-berkas baru, lalu perbarui rujukannya di `data.js`.
+Bila mengganti gambar/video **dengan nama yang sama**, pengunjung lama bisa
+melihat versi lama sampai 30 hari. Cara aman: pakai nama berkas baru lalu
+perbarui rujukannya di `data.js`.
 
 ### Bila memasang domain kustom
 
