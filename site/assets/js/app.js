@@ -927,7 +927,7 @@
   function initBlueprintSteps() {
     var list = $('[data-render="bp-steps"]');
     var host = $('[data-blueprint]');
-    if (!list) return;
+    if (!host) return;                 // halaman tanpa model 3D
     var active = 0, userPicked = false;
 
     function paintHud() {
@@ -945,14 +945,17 @@
 
     function setActive(i, silent) {
       active = Math.max(0, Math.min(i, D.bpStages.length - 1));
-      $$('[data-bp-step]', list).forEach(function (b) {
-        b.setAttribute('aria-current', String(+b.getAttribute('data-bp-step') === active));
-      });
+      if (list) {
+        $$('[data-bp-step]', list).forEach(function (b) {
+          b.setAttribute('aria-current', String(+b.getAttribute('data-bp-step') === active));
+        });
+      }
       paintHud();
       if (!silent && window.rgiShowSheet) window.rgiShowSheet(D.bpStages[active].sheet);
     }
 
     register(function () {
+      if (!list) { paintHud(); return; }
       list.innerHTML = D.bpStages.map(function (st, i) {
         return '<button class="bp-step" type="button" data-bp-step="' + i + '" aria-current="' +
           (i === active) + '">' +
@@ -963,7 +966,7 @@
       paintHud();
     });
 
-    list.addEventListener('click', function (e) {
+    if (list) list.addEventListener('click', function (e) {
       var b = e.target.closest('[data-bp-step]');
       if (!b) return;
       var i = +b.getAttribute('data-bp-step');

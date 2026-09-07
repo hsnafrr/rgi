@@ -195,10 +195,14 @@ p{margin:0;text-wrap:pretty}
 .brand{display:flex;align-items:center;gap:.7rem;flex:0 1 auto;min-width:0;padding-block:.5rem}
 .brand__mark{width:auto;height:34px;flex:none}
 .brand__text{display:flex;flex-direction:column;line-height:1.05;min-width:0}
-.brand__name{font-family:var(--font-display);font-weight:600;font-size:.9375rem;
-  letter-spacing:.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand__tag{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--text-muted);margin-top:3px;white-space:nowrap}
+.brand__name{display:block;font-family:var(--font-display);font-weight:600;
+  font-size:.9375rem;line-height:1.2;letter-spacing:.005em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Sub-header: selalu satu tingkat lebih kecil daripada nama perusahaan. */
+.brand__tag{display:block;font-family:var(--font-mono);font-size:.5625rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);
+  margin-top:4px;line-height:1.2;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
 
 .header__actions{display:flex;align-items:center;gap:var(--sp-3);flex:none;margin-left:auto}
 @media (max-width:900px){.header__cta{display:none}}
@@ -275,12 +279,18 @@ body.nav-open{overflow:hidden}
     max-height:100svh;height:100svh;padding:calc(76px + var(--sp-5)) var(--gutter) var(--sp-6);
     transform:translateY(-14px)}
   .menu-panel .mobile-nav__link{font-size:1.35rem;padding-block:1rem}
-  .brand__tag{display:none}
-  .brand__name{font-size:.6875rem;letter-spacing:.06em;white-space:normal;line-height:1.25}
+  /* Nama dibiarkan membungkus dua baris; dipotong elipsis justru membuat
+     nama perusahaan tidak terbaca utuh. */
+  .brand__name{font-size:.6875rem;letter-spacing:.03em;white-space:normal;
+    line-height:1.18;max-width:17ch}
+  .brand__tag{font-size:.5rem;letter-spacing:.12em;margin-top:3px}
   .brand__mark{height:30px}
   .header__inner{min-height:68px;gap:var(--sp-3)}
 }
-@media (max-width:380px){.brand__name{font-size:.625rem}}
+@media (max-width:380px){
+  .brand__name{font-size:.5625rem;max-width:18ch;letter-spacing:.02em}
+  .brand__tag{font-size:.4375rem;letter-spacing:.08em}
+}
 
 .skip-link{position:absolute;left:var(--gutter);top:-64px;z-index:200;background:var(--walnut-900);
   color:var(--cream-50);padding:.7rem 1.1rem;border-radius:var(--r-sm);font-size:.875rem;
@@ -1091,7 +1101,11 @@ a.cinfo__item:hover{border-color:var(--tan-400);transform:translateX(3px)}
 /* =========================================================================
    29. Performa
    ========================================================================= */
-.section--defer{content-visibility:auto;contain-intrinsic-size:auto 900px}
+/* Dulu memakai `content-visibility:auto`. Dilepas karena tinggi seksi jadi
+   perkiraan sampai benar-benar dirender: anchor dan scrollIntoView mendarat
+   di posisi yang salah, dan tinggi halaman bergeser saat digulir. Kelasnya
+   dipertahankan sebagai penanda seksi berat bila nanti dibutuhkan lagi. */
+.section--defer{contain:layout style}
 @media (max-width:768px){
   .header{background:rgba(245,241,234,.97);-webkit-backdrop-filter:none;backdrop-filter:none}
   .slider__nav{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,253,249,.96)}
@@ -1256,3 +1270,17 @@ a.cinfo__item:hover{border-color:var(--tan-400);transform:translateX(3px)}
 @media (min-width:1100px){
   .carousel--team .carousel__rail{grid-auto-columns:calc((100% - 2 * var(--sp-4)) / 2.6)}
 }
+
+/* =========================================================================
+   34. Preview model struktur di Beranda
+   ========================================================================= */
+.bp-preview{display:grid;gap:var(--sp-6);align-items:center}
+@media (min-width:1000px){
+  .bp-preview{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:var(--sp-8)}
+}
+.blueprint--preview{aspect-ratio:4/3}
+@media (min-width:1000px){.blueprint--preview{aspect-ratio:16/12}}
+/* Versi ringkas: tanpa paragraf keterangan, HUD cukup nomor + judul tahap. */
+.blueprint--preview .blueprint__hud{max-width:min(26ch,80%)}
+.blueprint--preview .blueprint__desc{display:none}
+.blueprint--preview .blueprint__label{font-size:clamp(1.1rem,2.2vw,1.4rem)}

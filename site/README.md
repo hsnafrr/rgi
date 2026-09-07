@@ -29,7 +29,7 @@ Lalu buka <http://localhost:5183>.
 
 ```
 site/
-├─ index.html          Beranda: hero scroll-driven, foto utama, pesan cepat
+├─ index.html          Beranda: hero scroll-driven, foto utama, preview 3D, pesan cepat
 ├─ tentang.html        Tentang, visi-misi, TIM, legalitas
 ├─ layanan.html        Layanan + SOP proyek
 ├─ denah.html          Slider gambar kerja + model 3D 6 tahap + video live site
@@ -163,6 +163,11 @@ Enam tahap, dari pondasi sampai **rumah jadi berwarna**:
 6. **Rumah Jadi** — dinding, atap limasan, bukaan berkaca, teras, carport,
    taman, dan kolam renang 3 × 7 m, memakai palet warna yang sama dengan situs.
 
+Beranda memuat **preview ringkas** model yang sama (tanpa stepper), dengan
+tautan ke halaman Denah untuk versi lengkapnya. Three.js tetap ditunda sampai
+bagian itu mendekati layar, jadi pengunjung yang tidak menggulir sejauh itu
+tidak menanggung unduhannya.
+
 - Menggulir menyusun struktur bertahap; menekan tombol tahap melompat ke tahap itu
   **dan memindahkan gambar kerja di slider atas** ke lembar yang bersesuaian.
 - Pilihan tahap yang ditekan pengguna tidak akan tergeser oleh perhitungan ulang
@@ -201,6 +206,9 @@ Tidak ada framework, bundler, atau `npm install`.
 - Animasi hanya memakai `transform`/`opacity`.
 - `backdrop-filter` dimatikan di layar ≤ 768 px; efek hover dimatikan di
   perangkat sentuh.
+- `content-visibility:auto` sengaja **tidak** dipakai: tinggi seksi jadi
+  perkiraan sampai dirender, sehingga anchor dan `scrollIntoView` mendarat di
+  posisi salah dan tinggi halaman bergeser saat digulir.
 - `prefers-reduced-motion` dihormati; bila GSAP gagal dimuat konten tetap tampil.
 
 ### Alat bantu

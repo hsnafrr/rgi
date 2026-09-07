@@ -87,6 +87,38 @@ TEAM = '''<section class="section section--alt section--defer" id="tim">
   </div>
 </section>'''
 
+PREVIEW3D = '''<section class="section section--dark section--defer bp-section" id="model-struktur">
+  <div class="container">
+    <div class="bp-preview">
+      <div data-reveal>
+        <p class="eyebrow" data-i18n="plan.3dEyebrow"></p>
+        <h2 class="h2" data-i18n="plan.3dTitle"></h2>
+        <p class="lead" data-i18n="plan.previewLead"></p>
+        <div class="bp-legend">
+          <span><i style="background:#93a072"></i><span data-i18n="plan.legendFoot"></span></span>
+          <span><i style="background:#c0824e"></i><span data-i18n="plan.legendCol"></span></span>
+          <span><i style="background:#d0a75a"></i><span data-i18n="plan.legendBeam"></span></span>
+        </div>
+        <div class="btn-row" style="margin-top:1.75rem">
+          <a class="btn btn--light" href="denah.html" data-i18n="plan.previewCta"></a>
+          <a class="btn btn--outline-light" href="library.html" data-i18n="cta.library"></a>
+        </div>
+      </div>
+      <div class="blueprint blueprint--preview" data-blueprint data-reveal>
+        <div class="bp-progress" aria-hidden="true"><i data-bp-bar></i></div>
+        <p class="blueprint__hint" data-i18n="plan.3dHint"></p>
+        <div class="blueprint__hud">
+          <p class="blueprint__stage" data-blueprint-stage></p>
+          <p class="blueprint__label" data-blueprint-label></p>
+        </div>
+        <p class="blueprint__loading" data-blueprint-loading data-i18n="plan.3dLoading"></p>
+        <p class="blueprint__fallback" data-blueprint-fallback hidden
+           data-i18n="plan.3dFallback"></p>
+      </div>
+    </div>
+  </div>
+</section>'''
+
 QUICK = '''<section class="section section--alt section--defer" id="pesan-cepat">
   <div class="container">
     <div class="section-head section-head--center" data-reveal>
@@ -259,6 +291,8 @@ HOME = '''<section class="hero hero--scroll" data-hero>
     </div>
   </div>
 </section>
+
+''' + PREVIEW3D + '''
 
 ''' + K3 + '''
 
@@ -671,7 +705,7 @@ TITLES = {
 }
 
 PAGES = [
-    ("index.html",      "nav.home",      HOME,          D_HOME, "", PRELOAD_HERO),
+    ("index.html",      "nav.home",      HOME,          D_HOME, THREE_JS, PRELOAD_HERO),
     ("tentang.html",    "nav.about",     ABOUT,
      "Profil, visi &amp; misi, serta legalitas PT RIV Group Indonesia: NIB, NPWP, SBU, SIUJK, dan SKA/SKT.", "", ""),
     ("layanan.html",    "nav.services",  SERVICES_PAGE,
