@@ -222,42 +222,49 @@ ffmpeg -i sumber.mp4 -an -vf "fps=24" -c:v libx264 -profile:v high -pix_fmt yuv4
 
 ---
 
-## 10. Publikasi ke Vercel
+## 10. Publikasi (sudah aktif)
 
-Situs ini statis murni — tanpa proses build. `vercel.json` dan `.vercelignore`
-sudah disiapkan (cache aset 1 tahun, HTML selalu divalidasi ulang, header
-keamanan dasar, folder `_source/` tidak ikut diunggah).
+Situs sudah live dan terhubung otomatis:
 
-### Cara tercepat — satu perintah
+| | |
+|---|---|
+| URL produksi | <https://rgi-phi.vercel.app> |
+| Repositori | <https://github.com/hsnafrr/rgi> (branch `main`) |
+| Proyek Vercel | `rgi` — tim *hsnafrr's projects* |
+| Root Directory | `site` |
+| Dashboard | <https://vercel.com/hsnafrrs-projects/rgi> |
+
+### Cara memperbarui situs
+
+Cukup commit dan push — Vercel otomatis mem-build dan menerbitkan:
 
 ```bash
-cd "C:/Users/hasan/Downloads/RGI/site"
-npx vercel --prod
+cd "C:/Users/hasan/Downloads/RGI"
+git add -A site
+git commit -m "Perbarui konten situs"
+git push origin main
 ```
 
-Saat pertama kali dijalankan, Vercel CLI akan:
-1. meminta login (membuka browser — pakai akun Vercel Anda);
-2. bertanya `Set up and deploy?` → **Y**;
-3. bertanya scope/tim → pilih **hsnafrr's projects**;
-4. bertanya `Link to existing project?` → **N**;
-5. bertanya nama proyek → ketik **rgi**;
-6. bertanya direktori kode → tekan **Enter** (titik/`.`);
-7. bertanya `Want to modify these settings?` → **N** (sudah diatur `vercel.json`).
+Perubahan biasanya live dalam waktu di bawah satu menit.
 
-Unggahan ±21 MB, sekitar satu menit. Setelah selesai CLI menampilkan URL
-produksi, misalnya `https://rgi.vercel.app`.
+### Catatan cache
 
-Deploy berikutnya cukup `npx vercel --prod` lagi dari folder yang sama.
+`vercel.json` sengaja **tidak** memakai `immutable` untuk CSS/JS, karena nama
+berkasnya tidak mengandung hash isi — kalau dipaksa immutable, pengunjung lama
+bisa tersangkut versi lama sampai setahun. Aturannya sekarang:
 
-### Alternatif — otomatis lewat GitHub
+| Berkas | Cache |
+|---|---|
+| `/assets/css/*`, `/assets/js/*` | selalu divalidasi ulang (respons 304 murah) |
+| `/assets/img/*`, `/assets/video/*` | 30 hari + `stale-while-revalidate` |
+| HTML | selalu divalidasi ulang |
 
-Bila situs didorong ke sebuah repositori GitHub, Vercel dapat dihubungkan
-sekali saja lalu setiap `git push` ke branch produksi otomatis ter-deploy.
+Bila suatu saat mengganti gambar/video **dengan nama berkas yang sama**,
+pengunjung lama bisa melihat versi lama sampai 30 hari. Cara aman: pakai nama
+berkas baru, lalu perbarui rujukannya di `data.js`.
 
-### Setelah live
+### Bila memasang domain kustom
 
-- [ ] Ganti `CONTOH-DOMAIN-ANDA.com` di `robots.txt` dan `sitemap.xml`
-      dengan domain yang sebenarnya, lalu deploy ulang.
-- [ ] Uji hero di HP: video harus mengikuti gulir (Vercel mendukung
-      HTTP Range, jadi seharusnya langsung berfungsi).
-- [ ] Pasang domain kustom di dashboard Vercel bila sudah ada.
+1. Tambahkan domain di dashboard Vercel → Settings → Domains.
+2. Ganti `rgi-phi.vercel.app` di `robots.txt` dan `sitemap.xml`.
+3. Commit dan push.
