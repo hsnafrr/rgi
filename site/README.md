@@ -219,3 +219,45 @@ ffmpeg -i sumber.mp4 -an -vf "fps=24" -c:v libx264 -profile:v high -pix_fmt yuv4
 - [ ] Periksa nomor WhatsApp `6285810845898` di `data.js` (`company.waNumber`).
 - [ ] Pastikan hosting mendukung HTTP Range (hampir semua sudah; lihat §1).
 - [ ] Folder `_source/` tidak dipakai saat runtime — boleh ikut diunggah atau tidak.
+
+---
+
+## 10. Publikasi ke Vercel
+
+Situs ini statis murni — tanpa proses build. `vercel.json` dan `.vercelignore`
+sudah disiapkan (cache aset 1 tahun, HTML selalu divalidasi ulang, header
+keamanan dasar, folder `_source/` tidak ikut diunggah).
+
+### Cara tercepat — satu perintah
+
+```bash
+cd "C:/Users/hasan/Downloads/RGI/site"
+npx vercel --prod
+```
+
+Saat pertama kali dijalankan, Vercel CLI akan:
+1. meminta login (membuka browser — pakai akun Vercel Anda);
+2. bertanya `Set up and deploy?` → **Y**;
+3. bertanya scope/tim → pilih **hsnafrr's projects**;
+4. bertanya `Link to existing project?` → **N**;
+5. bertanya nama proyek → ketik **rgi**;
+6. bertanya direktori kode → tekan **Enter** (titik/`.`);
+7. bertanya `Want to modify these settings?` → **N** (sudah diatur `vercel.json`).
+
+Unggahan ±21 MB, sekitar satu menit. Setelah selesai CLI menampilkan URL
+produksi, misalnya `https://rgi.vercel.app`.
+
+Deploy berikutnya cukup `npx vercel --prod` lagi dari folder yang sama.
+
+### Alternatif — otomatis lewat GitHub
+
+Bila situs didorong ke sebuah repositori GitHub, Vercel dapat dihubungkan
+sekali saja lalu setiap `git push` ke branch produksi otomatis ter-deploy.
+
+### Setelah live
+
+- [ ] Ganti `CONTOH-DOMAIN-ANDA.com` di `robots.txt` dan `sitemap.xml`
+      dengan domain yang sebenarnya, lalu deploy ulang.
+- [ ] Uji hero di HP: video harus mengikuti gulir (Vercel mendukung
+      HTTP Range, jadi seharusnya langsung berfungsi).
+- [ ] Pasang domain kustom di dashboard Vercel bila sudah ada.
