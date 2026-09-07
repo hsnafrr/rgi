@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://CONTOH-DOMAIN-ANDA.com/sitemap.xml
+Sitemap: https://rgi-phi.vercel.app/sitemap.xml

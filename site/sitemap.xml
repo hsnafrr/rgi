@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Ganti CONTOH-DOMAIN-ANDA.com dengan domain asli sebelum publikasi. -->
+<!-- Ganti rgi-phi.vercel.app dengan domain asli sebelum publikasi. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/index.html</loc>
+    <loc>https://rgi-phi.vercel.app/index.html</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/layanan.html</loc>
+    <loc>https://rgi-phi.vercel.app/layanan.html</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/portofolio.html</loc>
+    <loc>https://rgi-phi.vercel.app/portofolio.html</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/tentang.html</loc>
+    <loc>https://rgi-phi.vercel.app/tentang.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/denah.html</loc>
+    <loc>https://rgi-phi.vercel.app/denah.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/library.html</loc>
+    <loc>https://rgi-phi.vercel.app/library.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://CONTOH-DOMAIN-ANDA.com/kontak.html</loc>
+    <loc>https://rgi-phi.vercel.app/kontak.html</loc>
     <priority>0.9</priority>
   </url>
 </urlset>

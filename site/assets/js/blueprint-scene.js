@@ -177,7 +177,7 @@ export default function init(host) {
   scene.add(site);
 
   /* ---------------- progres & tahap aktif ------------------------------ */
-  let progress = 0, activeStage = -1, dirty = true, ready = false;
+  let progress = 0, activeStage = -1, dirty = true, ready = false, gotoRequested = false;
   const DIM = 0.3;                 // tahap yang sudah selesai diredupkan
   const smooth = t => t * t * (3 - 2 * t);
   const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
@@ -223,7 +223,7 @@ export default function init(host) {
     };
     anim = requestAnimationFrame(tick);
   }
-  document.addEventListener('rgi:bp-goto', (e) => goTo(e.detail.index));
+  document.addEventListener('rgi:bp-goto', (e) => { gotoRequested = true; goTo(e.detail.index); });
 
   /* Gulir menggerakkan penyusunan struktur. */
   if (window.gsap && window.ScrollTrigger && !reduced) {
@@ -272,8 +272,12 @@ export default function init(host) {
   resize();
 
   ready = true;
-  // Samakan stepper dengan tahap yang sedang ditampilkan model (penting pada
-  // mode reduced-motion, di mana model langsung berdiri penuh).
-  document.dispatchEvent(new CustomEvent('rgi:bp-stage', { detail: { index: activeStage } }));
+  // Urutan penting: umumkan kesiapan lebih dulu supaya pilihan tahap yang
+  // dibuat pengguna sebelum model termuat langsung dikirim ulang (sinkron).
   document.dispatchEvent(new CustomEvent('rgi:bp-ready'));
+  // Baru samakan stepper dengan tahap yang tampil — hanya bila pengguna belum
+  // memilih apa pun, agar HUD tidak berkedip kembali ke tahap 1.
+  if (!gotoRequested) {
+    document.dispatchEvent(new CustomEvent('rgi:bp-stage', { detail: { index: activeStage } }));
+  }
 }
