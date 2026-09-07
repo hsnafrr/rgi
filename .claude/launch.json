@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "rgi", "runtimeExecutable": "python", "runtimeArgs": ["site/_source/serve.py", "5183"], "port": 5183 }
+  ]
+}
