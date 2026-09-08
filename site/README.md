@@ -88,8 +88,16 @@ Setiap teks ditulis berpasangan: `{ id: 'Bahasa Indonesia', en: 'English' }`.
 Selama `photo` masih `''`, kartunya tetap tampil dengan bingkai
 *"Foto menyusul"* — jadi tata letak tidak berubah saat foto ditambahkan nanti.
 
-> Peran Sholeh Kadzim saat ini diisi **"Arsitek"** (menyesuaikan gelar S.Ars.).
-> Ganti di `data.js` bila jabatannya berbeda.
+> **Catatan foto sumber.** Berkas `Muhammad Rivky.jpeg`, `enggi rusadi.jpeg`,
+> dan `Ramdani CH.jpeg` di folder induk proyek **tertukar**: berkas bernama
+> *enggi rusadi* sebenarnya foto Ramdani (di studio), dan berkas bernama
+> *Ramdani CH* sebenarnya foto Enggi (di lokasi). Berkas WebP di
+> `assets/img/tim/` sudah dibuat dari sumber yang benar, jadi ikuti nama di
+> folder itu — bukan nama berkas aslinya.
+
+Urutan kartu: Koordinator Lapangan → Arsitek 1 → Arsitek 2, supaya penomoran
+arsitek terbaca berurutan. Kartu Sholeh Kadzim (Arsitek 1) masih memakai
+bingkai *"Foto menyusul"*.
 
 ### Menampilkan nomor legalitas
 

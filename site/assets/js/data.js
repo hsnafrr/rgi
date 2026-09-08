@@ -508,21 +508,21 @@ window.RGI = (function () {
       }
     },
     {
-      photo: 'ramdani',
-      name: 'Ramdani CH, S.T.',
-      role: { id: 'Tenaga Ahli Arsitektur', en: 'Architectural Expert' },
+      photo: '',
+      name: 'Sholeh Kadzim, S.Ars.',
+      role: { id: 'Arsitek 1', en: 'Architect 1' },
       desc: {
-        id: 'Menerjemahkan kebutuhan pemilik proyek menjadi gambar kerja yang dapat dilaksanakan, serta mengawal kesesuaian hasil di lapangan terhadap gambar.',
-        en: 'Turns the owner’s requirements into buildable working drawings, and checks that on-site results match those drawings.'
+        id: 'Menyusun konsep dan denah awal bersama pemilik proyek, lalu mengembangkannya menjadi rancangan yang siap digambar kerja.',
+        en: 'Works out the concept and initial layouts with the owner, then develops them into a design ready for working drawings.'
       }
     },
     {
-      photo: '',
-      name: 'Sholeh Kadzim, S.Ars.',
-      role: { id: 'Arsitek', en: 'Architect' },
+      photo: 'ramdani',
+      name: 'Ramdani CH, S.T.',
+      role: { id: 'Arsitek 2', en: 'Architect 2' },
       desc: {
-        id: 'Menangani pengembangan desain dan detail arsitektur, memastikan konsep ruang tetap utuh sampai tahap pelaksanaan.',
-        en: 'Handles design development and architectural detailing, keeping the spatial concept intact through to execution.'
+        id: 'Menerjemahkan rancangan menjadi gambar kerja yang dapat dilaksanakan, serta mengawal kesesuaian hasil di lapangan terhadap gambar.',
+        en: 'Turns the design into buildable working drawings and checks that on-site results match those drawings.'
       }
     }
   ];
