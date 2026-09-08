@@ -2,7 +2,7 @@
 
 Situs statis 7 halaman, dwibahasa (Indonesia / English), tanpa proses build.
 
-- **Live:** <https://rgi-phi.vercel.app>
+- **Live:** <https://riv-groupindonesia.com>
 - **Repo:** <https://github.com/hsnafrr/rgi> (branch `main`, root directory `site`)
 
 ---
@@ -287,5 +287,5 @@ perbarui rujukannya di `data.js`.
 ### Bila memasang domain kustom
 
 1. Tambahkan domain di dashboard Vercel → Settings → Domains.
-2. Ganti `rgi-phi.vercel.app` di `robots.txt` dan `sitemap.xml`.
+2. Ganti domain di `robots.txt` dan `sitemap.xml` agar cocok dengan domain baru — Google Search Console menolak sitemap yang memuat URL di luar properti yang didaftarkan.
 3. Commit dan push.
