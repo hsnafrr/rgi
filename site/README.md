@@ -87,6 +87,7 @@ Setiap teks ditulis berpasangan: `{ id: 'Bahasa Indonesia', en: 'English' }`.
 
 Selama `photo` masih `''`, kartunya tetap tampil dengan bingkai
 *"Foto menyusul"* — jadi tata letak tidak berubah saat foto ditambahkan nanti.
+Keempat anggota tim kini sudah berfoto lengkap.
 
 > **Catatan foto sumber.** Berkas `Muhammad Rivky.jpeg`, `enggi rusadi.jpeg`,
 > dan `Ramdani CH.jpeg` di folder induk proyek **tertukar**: berkas bernama

@@ -508,7 +508,7 @@ window.RGI = (function () {
       }
     },
     {
-      photo: '',
+      photo: 'kadzim',
       name: 'Sholeh Kadzim, S.Ars.',
       role: { id: 'Arsitek 1', en: 'Architect 1' },
       desc: {
