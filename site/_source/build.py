@@ -4,9 +4,14 @@ Generator halaman statis RGI.
 Jalankan dari folder `site/`:   python _source/build.py
 Semua header, footer, dan <head> berasal dari file ini agar 7 halaman konsisten.
 """
-import os, io, sys
+import os, io, sys, json
 
 OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Domain produksi. Dipakai untuk canonical, og:url, gambar OG, dan JSON-LD —
+# semuanya wajib absolut: crawler membaca halaman di luar konteks situs, jadi
+# URL relatif tidak bisa mereka selesaikan.
+SITE_URL = "https://riv-groupindonesia.com"
 
 NAV = [
     ("index.html",      "nav.home",      "01"),
@@ -72,12 +77,97 @@ def svg(name, cls=""):
             f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{c}>{ICON_SVG[name]}</svg>')
 
 
+def canonical(page):
+    """URL kanonik halaman. Beranda memakai akar domain, bukan /index.html —
+    Google memperlakukan keduanya sebagai dua URL berbeda, dan akar itulah
+    yang benar-benar diketikkan orang."""
+    return SITE_URL + ("/" if page == "index.html" else "/" + page)
+
+
+# Nama halaman untuk breadcrumb JSON-LD; harus sepadan dengan breadcrumb visual.
+CRUMB = {
+    "tentang.html":    "Tentang",
+    "layanan.html":    "Layanan",
+    "denah.html":      "Denah",
+    "library.html":    "Library",
+    "portofolio.html": "Portofolio",
+    "kontak.html":     "Kontak",
+}
+
+
+def jsonld(page, title):
+    """Data terstruktur schema.org.
+
+    Beranda membawa profil usaha (GeneralContractor) plus entitas situs;
+    halaman lain cukup breadcrumb supaya Google menampilkan jalur navigasi
+    di hasil pencarian, bukan URL mentah."""
+    if page == "index.html":
+        blocks = [{
+            "@context": "https://schema.org",
+            "@type": "GeneralContractor",
+            "@id": SITE_URL + "/#organization",
+            "name": "PT RIV Group Indonesia",
+            "alternateName": "RGI",
+            "url": SITE_URL + "/",
+            "logo": SITE_URL + "/assets/img/brand/rgi-logo.png",
+            "image": SITE_URL + "/assets/img/brand/og-cover.jpg",
+            "description": ("Kontraktor umum di Jakarta Timur: konstruksi gedung, hunian, "
+                            "interior fit-out, renovasi, infrastruktur, serta design & build."),
+            "email": "kreasikarya.estetika@gmail.com",
+            "telephone": "+62-858-1084-5898",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Jl. Dukuh VI No.6, RT.7/RW.2, Dukuh",
+                "addressLocality": "Kramat Jati, Jakarta Timur",
+                "addressRegion": "DKI Jakarta",
+                "postalCode": "13550",
+                "addressCountry": "ID",
+            },
+            "areaServed": {"@type": "Place", "name": "Jabodetabek"},
+            "openingHoursSpecification": [{
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday",
+                              "Thursday", "Friday", "Saturday"],
+                "opens": "08:00",
+                "closes": "17:00",
+            }],
+            "knowsLanguage": ["id", "en"],
+        }, {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": SITE_URL + "/#website",
+            "url": SITE_URL + "/",
+            "name": "PT RIV Group Indonesia",
+            "inLanguage": "id-ID",
+            "publisher": {"@id": SITE_URL + "/#organization"},
+        }]
+    else:
+        blocks = [{
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1,
+                 "name": "Beranda", "item": SITE_URL + "/"},
+                {"@type": "ListItem", "position": 2,
+                 "name": CRUMB.get(page, page), "item": canonical(page)},
+            ],
+        }]
+    return "\n".join(
+        '<script type="application/ld+json">' +
+        json.dumps(b, ensure_ascii=False, separators=(",", ":")) + "</script>"
+        for b in blocks)
+
+
 def shell(page, title_key, body, desc_id, extra_head="", extra_js="", title=""):
     active = page
     depth_home = "index.html"
     three_block = ""
     if extra_js:
         three_block = extra_js
+    url = canonical(page)
+    # Judul tab memuat "&amp;" karena ditulis untuk HTML; di dalam atribut
+    # meta entitas itu tetap sah, jadi dipakai apa adanya.
+    structured = jsonld(page, title)
     return f'''<!doctype html>
 <html lang="id" class="no-js">
 <head>
@@ -87,12 +177,25 @@ def shell(page, title_key, body, desc_id, extra_head="", extra_js="", title=""):
 <meta name="description" content="{desc_id}">
 <meta name="theme-color" content="#F5F1EA">
 <meta name="author" content="PT RIV Group Indonesia">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="PT RIV Group Indonesia (RGI) — General Contractor">
+<meta property="og:site_name" content="PT RIV Group Indonesia">
+<meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc_id}">
-<meta property="og:image" content="assets/img/hero/hero-poster.webp">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{SITE_URL}/assets/img/brand/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Dokumentasi proyek PT RIV Group Indonesia">
 <meta property="og:locale" content="id_ID">
 <meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc_id}">
+<meta name="twitter:image" content="{SITE_URL}/assets/img/brand/og-cover.jpg">
+{structured}
 <link rel="icon" type="image/png" href="assets/img/brand/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/brand/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">

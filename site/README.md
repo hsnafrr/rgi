@@ -284,8 +284,44 @@ Bila mengganti gambar/video **dengan nama yang sama**, pengunjung lama bisa
 melihat versi lama sampai 30 hari. Cara aman: pakai nama berkas baru lalu
 perbarui rujukannya di `data.js`.
 
+### SEO & Google Search Console
+
+Domain produksi: **https://riv-groupindonesia.com** (registrar Hostinger, hosting
+Vercel).
+
+Setiap halaman hasil `build.py` membawa:
+
+| Elemen | Isi |
+| --- | --- |
+| `<link rel="canonical">` | URL absolut halaman itu. Beranda memakai akar domain (`/`), bukan `/index.html` — Google memperlakukan keduanya sebagai dua URL berbeda. |
+| `robots` | `index, follow, max-image-preview:large, max-snippet:-1` — mengizinkan thumbnail besar dan cuplikan panjang di hasil pencarian. |
+| Open Graph & Twitter Card | Judul dan deskripsi per halaman, URL absolut, gambar `assets/img/brand/og-cover.jpg`. |
+| JSON-LD | Beranda: `GeneralContractor` (alamat, telepon, email, jam kerja) + `WebSite`. Halaman lain: `BreadcrumbList`. |
+
+`og-cover.jpg` sengaja JPG 1200×630, bukan WebP: WhatsApp dan sebagian
+pratinjau tautan tidak merender WebP, padahal WhatsApp adalah kanal utama
+situs ini. Bila diganti, pertahankan rasio 1,91:1.
+
+**Mengganti domain — cukup satu tempat.** Ubah `SITE_URL` di
+`_source/build.py`, jalankan `python _source/build.py`, lalu samakan
+`robots.txt` dan `sitemap.xml`. Sitemap harus memakai domain yang sama persis
+dengan properti Search Console; sitemap yang memuat URL domain lain akan
+ditolak. URL di sitemap juga harus sama persis dengan canonical-nya.
+
+Mendaftarkan ke Search Console:
+
+1. Tambahkan properti untuk `riv-groupindonesia.com`.
+2. Menu **Sitemaps** → isi `sitemap.xml` → Submit.
+3. Uji tampilan hasil kaya lewat [Rich Results Test](https://search.google.com/test/rich-results).
+
 ### Bila memasang domain kustom
 
 1. Tambahkan domain di dashboard Vercel → Settings → Domains.
-2. Ganti domain di `robots.txt` dan `sitemap.xml` agar cocok dengan domain baru — Google Search Console menolak sitemap yang memuat URL di luar properti yang didaftarkan.
-3. Commit dan push.
+2. Di registrar, arahkan `A` → `@` → `216.198.79.1`. Untuk `www`, tambahkan
+   `CNAME` → `www` → `cname.vercel-dns.com`.
+3. Perbarui `SITE_URL`, build ulang, samakan `robots.txt` dan `sitemap.xml`.
+4. Commit dan push.
+
+Catatan: Deployment Protection proyek aktif dengan mode
+`all_except_custom_domains`. URL `*.vercel.app` meminta login; domain kustom
+dikecualikan sehingga situs publik terbuka normal.
