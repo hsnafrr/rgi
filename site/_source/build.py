@@ -196,8 +196,12 @@ def shell(page, title_key, body, desc_id, extra_head="", extra_js="", title=""):
 <meta name="twitter:description" content="{desc_id}">
 <meta name="twitter:image" content="{SITE_URL}/assets/img/brand/og-cover.jpg">
 {structured}
-<link rel="icon" type="image/png" href="assets/img/brand/favicon.png">
-<link rel="apple-touch-icon" href="assets/img/brand/favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/img/brand/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/img/brand/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/brand/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/img/brand/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
